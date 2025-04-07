@@ -24,61 +24,28 @@ export default function AnimatedCardTwo() {
                 </g>
               </svg>
               Invite this person
-              <motion.div
-                className="absolute inset-0 -z-10 rounded-full bg-gray-950/5"
-                //   style="transform: scaleX(1) scaleY(1); opacity: 0;"
-
-                initial={{
-                  scale: 0.5,
-                  opacity: 0
-                }}
-                animate={{
-                  scale: 1.5,
-                  opacity: 1
-                }}
-                transition={{
-                  duration: 5,
-                  ease: "easeInOut",
-                  repeat: Infinity
-                }}
-              />
-              <motion.div
-                className="absolute inset-0 -z-10 rounded-full bg-gray-950/5 "
-                //   style="transform: scaleX(1) scaleY(1); opacity: 0;"
-                initial={{
-                  scale: 0.5,
-                  opacity: 0
-                }}
-                animate={{
-                  scale: 1.5,
-                  opacity: 1
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-              />
-              <motion.div
-                className="absolute inset-0 -z-10 rounded-full bg-gray-950/5"
-                //   style="transform: scaleX(1) scaleY(1); opacity: 0;"
-
-                initial={{
-                  scale: 0.5,
-                  opacity: 0
-                }}
-                animate={{
-                  scale: 1.5,
-                  opacity: 1
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
-              />
+              {Array.from({ length: 3 }).map((_, index) => (
+                <motion.div
+                  key={index}
+                  className="absolute inset-0 -z-10 rounded-full bg-gray-950/5"
+                  initial={{
+                    scaleX: 1,
+                    scaleY: 1,
+                    opacity: 0
+                  }}
+                  animate={{
+                    scaleX: 1.3,
+                    scaleY: 1.7,
+                    opacity: 1
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: 1 / 0,
+                    ease: "easeInOut",
+                    delay: (5 * index) / 3
+                  }}
+                />
+              ))}
               <div className="absolute left-1/2 top-1/2 -z-10 -ml-36 -mt-32 aspect-[288/256] w-72">
                 <svg
                   viewBox="0 0 288 256"
