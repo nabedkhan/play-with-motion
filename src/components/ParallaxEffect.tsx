@@ -1,23 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { IconBrandReact, IconChartPie, IconRocket } from "@tabler/icons-react";
 import {
-  useMotionValueEvent,
   useScroll,
   useTransform,
   motion,
-  useMotionTemplate
+  useSpring,
+  useMotionTemplate,
+  useMotionValueEvent
 } from "motion/react";
 
-type Feature = {
+interface Feature {
   id: number;
-  icon: React.ReactNode;
   title: string;
-  description: string;
   image: string;
-};
+  description: string;
+  icon: React.ReactNode;
+}
 
 const features = [
   {
@@ -48,23 +49,38 @@ const features = [
   }
 ];
 
+const colors = ["#0d1b2a", "#252422", "#333d29"];
+
 export default function ParallaxEffect() {
-  //   const mainRef = useRef<HTMLDivElement>(null);
-  // const { scrollYProgress } = useScroll();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const [background, setBackground] = useState(colors[0]);
+
+  const { scrollYProgress } = useScroll({
+    target: mainRef,
+    offset: ["start end", "end start"]
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const index = Math.floor(latest * colors.length);
+    setBackground(colors[index]);
+  });
 
   return (
-    <main className="min-h-screen font-[family-name:var(--font-geist-sans)]">
-      {/* <motion.div
-        style={{ scaleX: scrollYProgress }}
-        className="fixed left-0 top-0 z-10 h-0.5 w-full bg-purple-500 origin-left"
-      /> */}
-
+    <motion.main
+      ref={mainRef}
+      className="min-h-screen font-[family-name:var(--font-geist-sans)] relative"
+      initial={false}
+      animate={{ background }}
+      transition={{
+        duration: 0.2,
+        ease: "easeInOut"
+      }}>
       <div className="max-w-6xl mx-auto">
         {features.map((feature) => (
           <FeatureCard key={feature.id} feature={feature} />
         ))}
       </div>
-    </main>
+    </motion.main>
   );
 }
 
@@ -76,11 +92,14 @@ function FeatureCard({ feature }: { feature: Feature }) {
     offset: ["start end", "end start"]
   });
 
-  const translateY = useTransform(scrollYProgress, [0, 1], [300, -300]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-
   const blur = useTransform(scrollYProgress, [0.6, 1], [0, 10]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.2, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const translateY = useSpring(useTransform(scrollYProgress, [0, 1], [300, -300]), {
+    stiffness: 100,
+    damping: 12,
+    mass: 1
+  });
 
   return (
     <div
@@ -88,8 +107,8 @@ function FeatureCard({ feature }: { feature: Feature }) {
       className="w-full flex flex-col md:flex-row items-center justify-center text-white p-4 md:p-8 md:py-64">
       <motion.div
         style={{
-          filter: useMotionTemplate`blur(${blur}px)`,
-          scale
+          scale,
+          filter: useMotionTemplate`blur(${blur}px)`
         }}
         className="w-full md:w-1/2 space-y-4 md:pr-8">
         <div className="flex items-center space-x-2 mb-4">{feature.icon}</div>
@@ -101,20 +120,21 @@ function FeatureCard({ feature }: { feature: Feature }) {
 
       <motion.div
         style={{
-          y: translateY,
-          opacity
+          opacity,
+          y: translateY
         }}
         transition={{
           duration: 2
         }}
         className="w-full md:w-1/2 mt-8 md:mt-0">
-        <div className="rounded-lg overflow-hidden shadow-2xl w-96 mx-auto">
+        <div className="rounded-lg overflow-hidden shadow-2xl w-[35rem] h-[25rem] mx-auto relative">
           <Image
+            fill
+            priority
             src={feature.image}
             alt="Land Rover in a western town"
-            className="w-full h-auto object-cover"
-            width={500}
-            height={500}
+            className="w-full object-cover rounded-lg"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       </motion.div>
