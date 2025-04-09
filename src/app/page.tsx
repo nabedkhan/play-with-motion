@@ -1,9 +1,9 @@
+import Link from "next/link";
 // import AnimatedCard from "@/components/AnimatedCard";
 // import AnimatedCardTwo from "@/components/AnimatedCardTwo";
 // import Dashboard from "@/components/dashboard-2/Dashboard";
 import ParallaxEffect from "@/components/ParallaxEffect";
 // import HamburgerMenu from "@/components/HamburgerMenu";
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -31,6 +31,12 @@ export default function Home() {
           <li>
             <Link href="/dashboard" className="text-purple-600 hover:text-purple-800">
               Dashboard
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/dropdown-menu" className="text-purple-600 hover:text-purple-800">
+              Dropdown Menu
             </Link>
           </li>
         </ul>
