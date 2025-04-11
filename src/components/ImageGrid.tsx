@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 
 const images = [
@@ -56,48 +56,47 @@ export default function ImageGrid() {
           </div>
         ))}
 
-        {selectedImage && (
-          <motion.div
-            layoutId="selected"
-            onClick={() => setSelectedImage(null)}
-            className="fixed inset-0 bg-black/80 z-40 cursor-pointer"
-          />
-        )}
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                type: "tween",
+                duration: 0.3,
+                ease: "easeInOut"
+              }}
+              onClick={() => setSelectedImage(null)}
+              className="fixed inset-0 bg-black/80 z-40 cursor-pointer"
+            />
+          )}
 
-        {selectedImage && (
-          <motion.div
-            ref={ref}
-            layoutId="selected"
-            initial={{
-              opacity: 0,
-              scale: 0.95
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.95
-            }}
-            transition={{
-              type: "tween",
-              duration: 0.3,
-              ease: "easeInOut"
-            }}
-            className="fixed inset-0 z-50 max-w-4xl h-[80vh] m-auto">
-            <div className="relative w-full h-full">
-              <Image
-                fill
-                src={selectedImage}
-                alt="Selected image"
-                className="object-cover rounded-lg"
-                sizes="100vw"
-                quality={90}
-              />
-            </div>
-          </motion.div>
-        )}
+          {selectedImage && (
+            <motion.div
+              ref={ref}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{
+                type: "tween",
+                duration: 0.3,
+                ease: "easeInOut"
+              }}
+              className="fixed inset-0 z-50 max-w-4xl h-[80vh] m-auto">
+              <div className="relative w-full h-full">
+                <Image
+                  fill
+                  src={selectedImage}
+                  alt="Selected image"
+                  className="object-cover rounded-lg"
+                  sizes="100vw"
+                  quality={90}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

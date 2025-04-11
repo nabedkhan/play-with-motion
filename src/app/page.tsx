@@ -39,6 +39,12 @@ export default function Home() {
               Dropdown Menu
             </Link>
           </li>
+
+          <li>
+            <Link href="/image-grid" className="text-purple-600 hover:text-purple-800">
+              Image Grid
+            </Link>
+          </li>
         </ul>
       </nav>
 
