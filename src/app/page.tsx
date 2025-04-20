@@ -45,6 +45,18 @@ export default function Home() {
               Image Grid
             </Link>
           </li>
+
+          <li>
+            <Link href="/image-grid-with-layout" className="text-purple-600 hover:text-purple-800">
+              Image Grid With Layout
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/draw-circle" className="text-purple-600 hover:text-purple-800">
+              Draw Circle
+            </Link>
+          </li>
         </ul>
       </nav>
 
