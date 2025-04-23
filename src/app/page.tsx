@@ -57,6 +57,12 @@ export default function Home() {
               Draw Circle
             </Link>
           </li>
+
+          <li>
+            <Link href="/todo" className="text-purple-600 hover:text-purple-800">
+              Todo
+            </Link>
+          </li>
         </ul>
       </nav>
 
